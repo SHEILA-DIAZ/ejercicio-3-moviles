@@ -50,7 +50,7 @@ let interes = montoCompra * porcentajeInteres
 let montoFinanciado = montoCompra + interes
 let cuotaMensual = montoFinanciado / Double(mesesPlan)
 
-// 5. Mostrar resumen
+// 5. Mostrar resumen del financiamiento
 
 print("\n===== RESUMEN DEL FINANCIAMIENTO =====")
 print("Producto: \(producto)")
@@ -73,7 +73,16 @@ let calendario = Calendar.current
 let dateFormatter = DateFormatter()
 dateFormatter.dateFormat = "dd/MM/yyyy"
 
+var mesesEfectivamentePagados = 0
+
 for mes in 1...mesesPlan {
+
+    // Si ya no existe saldo, terminamos el calendario
+    if saldo <= 0 {
+        break
+    }
+
+    mesesEfectivamentePagados += 1
 
     let montoInicial = saldo
 
@@ -101,4 +110,17 @@ for mes in 1...mesesPlan {
         value: 1,
         to: fechaActual
     ) ?? fechaActual
+}
+
+// 7. Resumen final
+
+print("\n===== RESUMEN FINAL =====")
+print("Producto: \(producto)")
+print("Meses pagados: \(mesesEfectivamentePagados) de \(mesesPlan)")
+print("Saldo final: S/. \(String(format: "%.2f", saldo))")
+
+if saldo <= 0 {
+    print("Estado: FINANCIAMIENTO CANCELADO")
+} else {
+    print("Estado: FINANCIAMIENTO PENDIENTE")
 }
