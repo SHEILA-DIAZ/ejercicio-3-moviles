@@ -35,14 +35,22 @@ if mesesPlan == 6 {
     print("Plan no válido.")
 }
 
-// 3. Cálculos del financiamiento
+// 3. Lectura de pago adelantado
+
+print("¿En qué mes hará un pago adelantado? (0 = ninguno):")
+let mesAdelantado = Int(readLine() ?? "0") ?? 0
+
+print("Monto adicional a pagar ese mes (S/.):")
+let montoAdicional = Double(readLine() ?? "0") ?? 0.0
+
+// 4. Cálculos del financiamiento
 
 let montoCompra = precioUnitario * Double(cantidad)
 let interes = montoCompra * porcentajeInteres
 let montoFinanciado = montoCompra + interes
 let cuotaMensual = montoFinanciado / Double(mesesPlan)
 
-// 4. Mostrar resultados
+// 5. Mostrar resumen
 
 print("\n===== RESUMEN DEL FINANCIAMIENTO =====")
 print("Producto: \(producto)")
@@ -51,3 +59,12 @@ print("Porcentaje de interés: \(String(format: "%.0f", porcentajeInteres * 100)
 print("Interés: S/. \(String(format: "%.2f", interes))")
 print("Monto financiado: S/. \(String(format: "%.2f", montoFinanciado))")
 print("Cuota mensual: S/. \(String(format: "%.2f", cuotaMensual))")
+
+print("\n===== PAGO ADELANTADO =====")
+
+if mesAdelantado > 0 {
+    print("Mes del pago adelantado: \(mesAdelantado)")
+    print("Monto adicional: S/. \(String(format: "%.2f", montoAdicional))")
+} else {
+    print("No se realizará ningún pago adelantado.")
+}
