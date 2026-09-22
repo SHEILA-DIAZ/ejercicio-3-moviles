@@ -60,11 +60,45 @@ print("Interés: S/. \(String(format: "%.2f", interes))")
 print("Monto financiado: S/. \(String(format: "%.2f", montoFinanciado))")
 print("Cuota mensual: S/. \(String(format: "%.2f", cuotaMensual))")
 
-print("\n===== PAGO ADELANTADO =====")
+// 6. Calendario de pagos
 
-if mesAdelantado > 0 {
-    print("Mes del pago adelantado: \(mesAdelantado)")
-    print("Monto adicional: S/. \(String(format: "%.2f", montoAdicional))")
-} else {
-    print("No se realizará ningún pago adelantado.")
+print("\n===== CALENDARIO DE PAGOS =====")
+print("Mes\tFecha\t\tMonto Inicial\tPago\t\tSaldo")
+
+var saldo = montoFinanciado
+var fechaActual = Date()
+
+let calendario = Calendar.current
+
+let dateFormatter = DateFormatter()
+dateFormatter.dateFormat = "dd/MM/yyyy"
+
+for mes in 1...mesesPlan {
+
+    let montoInicial = saldo
+
+    var pagoDelMes = cuotaMensual
+
+    // Agregar pago adelantado
+    if mes == mesAdelantado && mesAdelantado > 0 {
+        pagoDelMes += montoAdicional
+    }
+
+    // Evitar que el pago supere el saldo
+    if pagoDelMes > saldo {
+        pagoDelMes = saldo
+    }
+
+    saldo -= pagoDelMes
+
+    let fechaTexto = dateFormatter.string(from: fechaActual)
+
+    print("\(mes)\t\(fechaTexto)\tS/. \(String(format: "%.2f", montoInicial))\tS/. \(String(format: "%.2f", pagoDelMes))\tS/. \(String(format: "%.2f", saldo))")
+
+    // Avanzar al siguiente mes
+    fechaActual = calendario.date(
+        byAdding: .month,
+        value: 1,
+        to: fechaActual
+    ) ?? fechaActual
 }
