@@ -21,8 +21,33 @@ let cantidad = Int(readLine() ?? "0") ?? 0
 print("Plan de Pago (6, 12, 24):")
 let mesesPlan = Int(readLine() ?? "0") ?? 12
 
-print("\n===== DATOS INGRESADOS =====")
+// 2. Determinar porcentaje de interés
+
+var porcentajeInteres = 0.0
+
+if mesesPlan == 6 {
+    porcentajeInteres = 0.20
+} else if mesesPlan == 12 {
+    porcentajeInteres = 0.40
+} else if mesesPlan == 24 {
+    porcentajeInteres = 0.60
+} else {
+    print("Plan no válido.")
+}
+
+// 3. Cálculos del financiamiento
+
+let montoCompra = precioUnitario * Double(cantidad)
+let interes = montoCompra * porcentajeInteres
+let montoFinanciado = montoCompra + interes
+let cuotaMensual = montoFinanciado / Double(mesesPlan)
+
+// 4. Mostrar resultados
+
+print("\n===== RESUMEN DEL FINANCIAMIENTO =====")
 print("Producto: \(producto)")
-print("Precio Unitario: S/. \(String(format: "%.2f", precioUnitario))")
-print("Cantidad: \(cantidad)")
-print("Plan de Pago: \(mesesPlan) meses")
+print("Monto de compra: S/. \(String(format: "%.2f", montoCompra))")
+print("Porcentaje de interés: \(String(format: "%.0f", porcentajeInteres * 100))%")
+print("Interés: S/. \(String(format: "%.2f", interes))")
+print("Monto financiado: S/. \(String(format: "%.2f", montoFinanciado))")
+print("Cuota mensual: S/. \(String(format: "%.2f", cuotaMensual))")
